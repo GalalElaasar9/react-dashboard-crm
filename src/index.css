@@ -92,7 +92,7 @@ body,
 
 /* thumb */
 ::-webkit-scrollbar-thumb {
-  background: #4cceac; /* غير اللون زي ما تحب */
+  background: #4cceac; 
   border-radius: 10px;
 }
 
