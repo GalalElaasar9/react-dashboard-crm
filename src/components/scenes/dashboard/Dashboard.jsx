@@ -19,7 +19,7 @@ import { mockTransactions } from "../../../data/mockData";
 export default function Dashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box className="container mx-0 mt-4 px-4 md:px-4 sm:!max-w-[100%]">

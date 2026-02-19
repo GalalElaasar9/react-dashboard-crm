@@ -17,9 +17,10 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
-const Item = ({ title, to, icon }) => (
+const Item = ({ title, to, icon , onClick  }) => (
   <MenuItem
     icon={icon}
+    onClick={onClick}
     component={
       <NavLink
         to={to}
@@ -102,26 +103,26 @@ export default function SideBar({ isCollapsed, setIsCollapsed, isMobileOpen, set
             </MenuItem>
 
             {/* MENU ITEMS */}
-            <Item title="Dashboard" to="/" icon={<HomeOutlinedIcon />} location={location} />
+            <Item title="Dashboard" to="/" icon={<HomeOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
             <Typography sx={{ m: "15px 0 5px 20px" }} color={colors.grey[300]}>
               Data
             </Typography>
-            <Item title="Manage Team" to="/team" icon={<PeopleOutlinedIcon />} location={location} />
-            <Item title="Contacts" to="/contacts" icon={<ContactsOutlinedIcon />} location={location} />
-            <Item title="Invoices" to="/invoices" icon={<ReceiptOutlinedIcon />} location={location} />
+            <Item title="Manage Team" to="/team" icon={<PeopleOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+            <Item title="Contacts" to="/contacts" icon={<ContactsOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+            <Item title="Invoices" to="/invoices" icon={<ReceiptOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
             <Typography sx={{ m: "15px 0 5px 20px" }} color={colors.grey[300]}>
               Pages
             </Typography>
-            <Item title="Profile Form" to="/form" icon={<PersonOutlinedIcon />} location={location} />
-            <Item title="Calendar" to="/calendar" icon={<CalendarTodayOutlinedIcon />} location={location} />
-            <Item title="FAQ" to="/faq" icon={<HelpOutlineOutlinedIcon />} location={location} />
+            <Item title="Profile Form" to="/form" icon={<PersonOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+            <Item title="Calendar" to="/calendar" icon={<CalendarTodayOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+            <Item title="FAQ" to="/faq" icon={<HelpOutlineOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
             <Typography sx={{ m: "15px 0 5px 20px" }} color={colors.grey[300]}>
               Charts
             </Typography>
-            <Item title="Bar Chart" to="/bar" icon={<BarChartOutlinedIcon />} location={location} />
-            <Item title="Pie Chart" to="/pie" icon={<PieChartOutlineOutlinedIcon />} location={location} />
-            <Item title="Line Chart" to="/line" icon={<TimelineOutlinedIcon />} location={location} />
-            <Item title="Geography" to="/geography" icon={<MapOutlinedIcon />} location={location} />
+            <Item title="Bar Chart" to="/bar" icon={<BarChartOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+            <Item title="Pie Chart" to="/pie" icon={<PieChartOutlineOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+            <Item title="Line Chart" to="/line" icon={<TimelineOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+            <Item title="Geography" to="/geography" icon={<MapOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
           </Menu>
         </Sidebar>
       </Box>
