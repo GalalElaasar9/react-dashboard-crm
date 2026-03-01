@@ -28,8 +28,9 @@ import { useState } from "react";
 import * as yup from "yup";
 import { Formik } from "formik";
 import MenuItem from "@mui/material/MenuItem";
+import { useEffect } from "react";
 
-export default function Team() {
+export default function Team() {  
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -164,7 +165,6 @@ export default function Team() {
         return (
           <Box display="flex" gap="10px" backgroundColor={colors.greenAccent[600]} 
             width={{ xs:"100%" , md:"50%" }}
-            // width="50% !important"
             m="0 auto"
             p="5px"
             justifyContent="center !important"

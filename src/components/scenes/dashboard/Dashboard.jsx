@@ -20,7 +20,6 @@ export default function Dashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   return (
     <Box className="container mx-0 mt-4 px-4 md:px-4 sm:!max-w-[100%]">
       
@@ -52,7 +51,7 @@ export default function Dashboard() {
           progress={0.75}
           increase="+14"
           icon={<EmailOutlined sx={{ fontSize: 26, color: colors.greenAccent[600] }} />}
-          backgroundColor={colors.primary[700]}
+          // backgroundColor={colors.primary[700]}
         />
         <StatBox
           title="431,225"
@@ -119,7 +118,7 @@ export default function Dashboard() {
           <Box>
             {mockTransactions.map((tx) => (
               <Box
-                key={tx.txId}
+                key={tx.id}
                 className="flex justify-between items-center p-4 border-b"
                 sx={{ borderColor: colors.primary[300] }}
               >

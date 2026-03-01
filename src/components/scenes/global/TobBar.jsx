@@ -6,12 +6,22 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Link, useNavigate } from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
+import { authContext } from "../../../Context/AuthContextProvider";
 
 export default function TobBar({ setIsMobileOpen }) {
+  let {token , logOut} = useContext(authContext)
+  let navigate = useNavigate()
+  const handleLogout = () => {
+    logOut();    
+    setIsMobileOpen(false);
+    navigate("/login", { replace: true });
+  };
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -34,7 +44,7 @@ export default function TobBar({ setIsMobileOpen }) {
         )}
 
         {/* Search Box */}
-        <Box
+        {/* <Box
           className="hidden lg:flex items-center"
           bgcolor={searchBg}
           borderRadius="6px"
@@ -44,7 +54,7 @@ export default function TobBar({ setIsMobileOpen }) {
           <IconButton>
             <SearchIcon />
           </IconButton>
-        </Box>
+        </Box> */}
       </Box>
 
       {/* RIGHT */}
@@ -52,10 +62,12 @@ export default function TobBar({ setIsMobileOpen }) {
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
         </IconButton>
-
-        <IconButton>
-          <NotificationsNoneIcon />
+        <Link to={'/carts'}>
+        <IconButton className="position-relative">
+          <AddShoppingCartIcon />
+          {/* <span className={`w-[20px] h-[20px] flex justify-center items-center position-absolute p-2 rounded-full top-[-10px] right-[-5px] text-[15px]`}style={{ backgroundColor: colors.greenAccent[500] }}>0</span> */}
         </IconButton>
+        </Link>
 
         <IconButton className="hidden sm:inline-flex">
           <PersonIcon />
@@ -64,6 +76,10 @@ export default function TobBar({ setIsMobileOpen }) {
         <IconButton className="hidden md:inline-flex">
           <SettingsIcon />
         </IconButton>
+        {token ? <IconButton className="hidden md:inline-flex" onClick={handleLogout}>
+          <LogoutIcon />
+        </IconButton>: ''}
+        
       </Box>
     </Box>
   );

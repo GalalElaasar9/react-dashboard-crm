@@ -11,7 +11,9 @@ body,
   width: 100%;
   font-family: 'Source Sans Pro' , sans-serif;
 }
-
+a{
+  text-decoration: none;
+}
 .app {
   display: flex;
   position: relative;
@@ -99,4 +101,12 @@ body,
 /* hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #3da58a;
+}
+.css-1udx20f {
+  width: 50%; 
+}
+@media (max-width: 1024px) {
+  .css-1udx20f {
+    width: 100% !important;
+  }
 }

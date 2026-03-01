@@ -1,10 +1,9 @@
-import { Box, IconButton, Typography, useTheme, useMediaQuery } from "@mui/material";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { NavLink, useLocation } from "react-router-dom";
+import { Box, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
 
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
@@ -16,29 +15,26 @@ import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import LoginIcon from '@mui/icons-material/Login';
+import AppRegistration from '@mui/icons-material/AppRegistration';
+import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 
-const Item = ({ title, to, icon , onClick  }) => (
-  <MenuItem
-    icon={icon}
-    onClick={onClick}
-    component={
-      <NavLink
-        to={to}
-        style={({ isActive }) => ({ color: isActive ? "#6870fa" : "inherit" })}
-        className={'hover:bg-transparent'}
-      />
-    }
-  >
-    <Typography>{title}</Typography>
-  </MenuItem>
-);
+import Item from "../../Item/Item";
+import { useContext } from "react";
+import { authContext } from "../../../Context/AuthContextProvider";
 
-export default function SideBar({ isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen }) {
+export default function SideBar({
+  isCollapsed,
+  setIsCollapsed,
+  isMobileOpen,
+  setIsMobileOpen,
+}) {
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const location = useLocation();
-  const isLgUp = useMediaQuery('(min-width:1024px)');
-
+  const isLgUp = useMediaQuery("(min-width:1024px)");
+  let {token} = useContext(authContext)
   return (
     <>
       {/* Overlay Mobile */}
@@ -49,85 +45,194 @@ export default function SideBar({ isCollapsed, setIsCollapsed, isMobileOpen, set
         />
       )}
 
-
-      {/* Sidebar */}
       <Box
-        className={`fixed top-0 left-0 z-50 transition-transform duration-300
-          ${isLgUp ? 'translate-x-0' : (isMobileOpen ? 'translate-x-0' : '-translate-x-full')}
-        `}
-        style={{
-          width: isCollapsed && isLgUp ? 80 : 250,
-          height: '100vh',          
+        className={`fixed top-0 left-0 z-50 h-screen transition-all duration-300
+        ${isLgUp ? "" : isMobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+        sx={{
+          width: isCollapsed && isLgUp ? "80px" : "250px",
+          backgroundColor: colors.primary[400],
+          transition: "width 0.3s ease",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-      <Sidebar
-        collapsed={isCollapsed && isLgUp}
-        backgroundColor={colors.primary[400]}
-        style={{
-          height: '100%',
-          overflowY: 'auto',
-        }}
-      >
-          <Menu
-            menuItemStyles={{
-              button: ({ active }) => ({
-                color: active ? "#6870fa" : colors.grey[100],
-                backgroundColor: active ? colors.primary[600] : "transparent",
-                "&:hover": { backgroundColor: 'transparent' },
-              }),
+        {/* Header */}
+        <Box className="flex items-center justify-between p-4 !py-4 !pl-4">
+          {!isCollapsed && (
+            <Typography variant="h4" color={colors.grey[100]}>
+              SHOPEASE
+            </Typography>
+          )}
+
+          <IconButton
+            onClick={() => {
+              if (isLgUp) setIsCollapsed(!isCollapsed);
+              else setIsMobileOpen(false);
             }}
           >
-            {/* LOGO + Collapse */}
-            <MenuItem
-              icon={isCollapsed && isLgUp ? <MenuOutlinedIcon /> : null}
-              onClick={() => {
-                if (isLgUp) setIsCollapsed(!isCollapsed);
-                else setIsMobileOpen(!isMobileOpen);
-              }}
-            >
-              {!isCollapsed || !isLgUp ? (
-                <Box display="flex" justifyContent="space-between" alignItems="center" ml="10px">
-                  <Typography variant="h4">SHOPEASE</Typography>
-                  {isLgUp && (
-                    <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                      <MenuOutlinedIcon />
-                    </IconButton>
-                  )}
-                  {!isLgUp && (
-                    <IconButton onClick={() => setIsMobileOpen(false)}>
-                      <CloseIcon />
-                    </IconButton>
-                  )}
-                </Box>
-              ) : null}
-            </MenuItem>
+            {isLgUp ? (
+              <MenuOutlinedIcon sx={{ color: colors.grey[100] }} />
+            ) : (
+              <CloseIcon sx={{ color: colors.grey[100] }} />
+            )}
+          </IconButton>
+        </Box>
 
-            {/* MENU ITEMS */}
-            <Item title="Dashboard" to="/" icon={<HomeOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+        <Box
+          sx={{
+            flex: 1,
+            overflowY: "auto",
+            "&::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: colors.blueAccent[500],
+              borderRadius: "10px",
+            },
+            overflowX: "hidden",
+          }}
+        >
+          {/* DASHBOARD */}
+          <Item
+            title="Dashboard"
+            to="/"
+            icon={<HomeOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          
+
+          {/* DATA */}
+          {!isCollapsed && (
             <Typography sx={{ m: "15px 0 5px 20px" }} color={colors.grey[300]}>
               Data
             </Typography>
-            <Item title="Manage Team" to="/team" icon={<PeopleOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
-            <Item title="Contacts" to="/contacts" icon={<ContactsOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
-            <Item title="Invoices" to="/invoices" icon={<ReceiptOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+          )}
+          {!token ? <>
+          <Item   
+            title="Login"
+            to="/login"
+            icon={<LoginIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Register"
+            to="/register"
+            icon={<AppRegistration />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          </>:''}
+          <Item
+            title="Products"
+            to="/products"
+            icon={<PeopleOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Brands"
+            to="/brands"
+            icon={<StoreOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Categories"
+            to="/categories"
+            icon={<CategoryOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Manage Team"
+            to="/team"
+            icon={<PeopleOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Contacts"
+            to="/contacts"
+            icon={<ContactsOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Invoices"
+            to="/invoices"
+            icon={<ReceiptOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+
+          {/* PAGES */}
+          {!isCollapsed && (
             <Typography sx={{ m: "15px 0 5px 20px" }} color={colors.grey[300]}>
               Pages
             </Typography>
-            <Item title="Profile Form" to="/form" icon={<PersonOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
-            <Item title="Calendar" to="/calendar" icon={<CalendarTodayOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
-            <Item title="FAQ" to="/faq" icon={<HelpOutlineOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
+          )}
+
+          <Item
+            title="Profile Form"
+            to="/form"
+            icon={<PersonOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Calendar"
+            to="/calendar"
+            icon={<CalendarTodayOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="FAQ"
+            to="/faq"
+            icon={<HelpOutlineOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+
+          {/* CHARTS */}
+          {!isCollapsed && (
             <Typography sx={{ m: "15px 0 5px 20px" }} color={colors.grey[300]}>
               Charts
             </Typography>
-            <Item title="Bar Chart" to="/bar" icon={<BarChartOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
-            <Item title="Pie Chart" to="/pie" icon={<PieChartOutlineOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
-            <Item title="Line Chart" to="/line" icon={<TimelineOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
-            <Item title="Geography" to="/geography" icon={<MapOutlinedIcon />} location={location} onClick={()=>{if (!isLgUp) setIsMobileOpen(false) }}/>
-          </Menu>
-        </Sidebar>
+          )}
+
+          <Item
+            title="Bar Chart"
+            to="/bar"
+            icon={<BarChartOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Pie Chart"
+            to="/pie"
+            icon={<PieChartOutlineOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Line Chart"
+            to="/line"
+            icon={<TimelineOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Geography"
+            to="/geography"
+            icon={<MapOutlinedIcon />}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+        </Box>
       </Box>
     </>
   );
 }
-
-
