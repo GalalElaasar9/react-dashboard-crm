@@ -3,10 +3,10 @@ import { createContext, useEffect, useState } from 'react'
 export let authContext = createContext() 
 
 export default function AuthContextProvider({children}) {
-const [user, setUser] = useState(() => {
-  const savedUser = localStorage.getItem("user");
-  return savedUser ? JSON.parse(savedUser) : null;
-});
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [token , setToken] = useState(()=>localStorage.getItem("token") || null)
 
   /*
