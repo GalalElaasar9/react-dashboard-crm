@@ -138,11 +138,7 @@ export default function Login() {
                         }
                         edge="end"
                       >
-                        {showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -156,11 +152,7 @@ export default function Login() {
                 disabled={!isValid || !dirty || isPending}
                 sx={{ fontWeight: 600, height: 45 }}
               >
-                {isPending ? (
-                  <CircularProgress size={24} color="inherit" />
-                ) : (
-                  "Login"
-                )}
+                {isPending ? <CircularProgress size={24} color="inherit" /> : "Login"}
               </Button>
             </Box>
           </form>
