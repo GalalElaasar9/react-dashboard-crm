@@ -4,7 +4,7 @@ import api from "../components/Apis/AuthApis";
 
 export let CategoryContext = createContext()
 
-export default function CategoryProvider({children}) {
+export default function CategoryContextProvider({children}) {
   const queryClient = useQueryClient();
   // Get All Categories
   async function getAllCategories(){

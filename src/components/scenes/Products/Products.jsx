@@ -11,46 +11,25 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import ErrorMessage from "../../Error/ErrorMessage";
 import ProductFormDialog from "../../ProductFormDialog/ProductFormDialog";
+import { productsContext } from "../../../Context/ProductsContextProvider";
 
 export default function Products() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [formDialogOpen , setFormDialogOpen] = useState(false)
   const [formMode , setFormMode] = useState("add") // add or edit
-
-  // Get All Products 
-  async function getAllProducts() {
-    const { data } = await api.get(`/products`);
-    return data;
-  }
-
-  const {data, isLoading, isError , error } = useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
-    staleTime: 1000 * 60 * 5,
-    retry: 3,
-    refetchIntervalInBackground: false,
-    // placeholderData: (previousData) => previousData
-  });
+  const {data, isLoading, isError , error , deleteProduct} = useContext(productsContext)
 
   // Delete Product
-  async function removeProduct(id) {
-    const {data} = await api.delete(`/products/${id}`)
-    return data
-  }
-
-  const {mutate:deleteProduct} = useMutation({
-    mutationKey:["deleteProduct"],
-    mutationFn:(id)=>removeProduct(id),
+  async function handleDeleteProduct(id) {
+    deleteProduct(id,{
     onSuccess:()=>{
-      queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Product Deleted successfully.",{
         duration:2000,
         position:'top-right'
@@ -61,50 +40,66 @@ export default function Products() {
         duration:2000,
         position:'top-right'
       })
-    }    
-  })
+    }  
+    })
+  }
+  // Columns 
+  const columns = useMemo(() => [
+    { field: "name", headerName: "Name", flex: 1, cellClassName: "name-cell" },
+    { field: "image",headerName: "Image", flex: 1,
+      renderCell: (params) => (
+        <img
+          src={params.row.images?.[0]}
+          alt={params.row.name}
+          style={{
+            width: "60px",
+            height: "60px",
+            borderRadius: "8px",
+          }}
+        />
+      ),
+    },
 
-  if (isError) return <ErrorMessage error={error.message}/>
+    { field: "description", headerName: "Description", flex: 1 },
+    { field: "price", headerName: "Price", flex: 0.5 },
+    { field: "stock", headerName: "Stock", flex: 0.5 },
 
-  if (isLoading) return <LoadingScreen/>
-
-    const columns = [
-    {field : "name" , headerName : "Name" , flex:1 , cellClassName : "name-cell"},
     {
-    field: "image",
-    headerName: "Image",
-    flex: 1,
-    renderCell: (params) => (
-      <img
-        src={params.row.images[0]}
-        alt={params.row.name}
-        style={{
-          width: "95px",
-          height: "95px",
-          borderRadius: "8px",
-        }}
-      />
-    ),
-    },    
-    {field : "description" , headerName : "Description" , flex:1},
-    {field : "price" , headerName : "Price" , flex:0.5},
-    {field : "stock" , headerName : "Stock" , flex:0.5},
-    {field : "brand" , headerName : "Brand" , flex:0.5 , renderCell:(params)=>{
-      return <Typography color={colors.greenAccent[500]}>{params.row.brand.name}</Typography>
-    }},
-    {field : "category" , headerName : "Category" , flex:0.5 , renderCell:(params)=>{
-      return <Typography color={colors.greenAccent[500]}>{params.row.category.name}</Typography>
-    }},
+      field: "brand",
+      headerName: "Brand",
+      flex: 0.5,
+      renderCell: (params) => (
+        <Typography color={colors.greenAccent[500]}>
+          {params.row.brand?.name}
+        </Typography>
+      ),
+    },
+
+    {
+      field: "category",
+      headerName: "Category",
+      flex: 0.5,
+      renderCell: (params) => (
+        <Typography color={colors.greenAccent[500]}>
+          {params.row.category?.name}
+        </Typography>
+      ),
+    },
+
     {
       field: "colors",
       headerName: "Colors",
       flex: 1,
       renderCell: (params) => {
-        const colors = params.row.colors[0] ? JSON.parse(params.row.colors[0]) : [];        
-        if (colors.length === 0) return "No Colors";
+        const colorsArr = params.row.colors?.[0]
+          ? JSON.parse(params.row.colors[0])
+          : [];
+
+        if (colorsArr.length === 0) return "No Colors";
+
         return (
           <Box className="flex flex-wrap" gap={1}>
-            {colors.map((c, idx) => (
+            {colorsArr.map((c, idx) => (
               <Box
                 key={idx}
                 sx={{
@@ -120,57 +115,97 @@ export default function Products() {
         );
       },
     },
-    {field : "sizes" , headerName : "Sizes" , flex:1 , renderCell:(params)=>{
-      const sizes = params.row.sizes[0] ? JSON.parse(params.row.sizes[0]) : []
-      if (sizes.length === 0) return "No Sizes"
-      return (
-        <Box display="flex" gap={1}>
-          {sizes.map((s , idx)=>{
-            return <Box
-                    className="flex justify-center items-center flex-wrap"
-                    key={idx}
-                    sx={{
-                      width: 25,
-                      height: 25,
-                      borderRadius: "50%",
-                      backgroundColor: colors.primary[700],
-                    }}
-                  >
-                  <Typography variant="body2">
-                    {s}
-                  </Typography>
-                  </Box>
-            })}
-            
+
+    {
+      field: "sizes",
+      headerName: "Sizes",
+      flex: 1,
+      renderCell: (params) => {
+        const sizes = params.row.sizes?.[0]
+          ? JSON.parse(params.row.sizes[0])
+          : [];
+
+        if (sizes.length === 0) return "No Sizes";
+
+        return (
+          <Box display="flex" gap={1}>
+            {sizes.map((s, idx) => (
+              <Box
+                key={idx}
+                sx={{
+                  width: 25,
+                  height: 25,
+                  borderRadius: "50%",
+                  backgroundColor: colors.primary[700],
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="body2">{s}</Typography>
+              </Box>
+            ))}
+          </Box>
+        );
+      },
+    },
+
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 1,
+      renderCell: (params) => (
+        <Box className="flex flex-wrap">
+          <IconButton
+            color="success"
+            onClick={() => {
+              setSelectedProduct(params.row);
+              setDialogOpen(true);
+            }}
+          >
+            <VisibilityIcon />
+          </IconButton>
+
+          <IconButton
+            onClick={() => {
+              setFormMode("edit");
+              setSelectedProduct(params.row);
+              setFormDialogOpen(true);
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+
+          <IconButton
+            color="error"
+            onClick={() => {
+              if (
+                window.confirm(
+                  "Are you sure you want to delete this category?"
+                )
+              ) {
+                handleDeleteProduct(params.row._id);
+              }
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
         </Box>
-      )
-    }},
-    {field : "actions" , headerName : "Actions" , flex:1 , cellClassName : "actions" , renderCell:(params)=>{
-      return <Box className="flex flex-wrap">
-            <IconButton color="success" 
-              onClick={()=>{
-                setSelectedProduct(params.row)
-                setDialogOpen(true)
-              }}>
-              <VisibilityIcon />  
-            </IconButton>
-            <IconButton color="default" 
-              onClick={()=>{
-                setFormMode("edit");
-                setSelectedProduct(params.row);
-                setFormDialogOpen(true)
-              }}
-            >
-              <EditIcon />  
-            </IconButton>
-            <IconButton color="error" onClick={()=>{if(window.confirm("Are you sure you want to delete this category?")){
-                deleteProduct(params.row._id)
-              }}}>
-              <DeleteIcon />  
-            </IconButton>
-      </Box>
-    }},
-  ]
+      ),
+    },
+  ], [
+    colors,
+    handleDeleteProduct,
+    setSelectedProduct,
+    setDialogOpen,
+    setFormMode,
+    setFormDialogOpen
+  ]);
+
+  if (isError) return <ErrorMessage error={error.message}/>
+
+  if (isLoading) return <LoadingScreen/>
+
 
   return (
     <Box className="px-4">
@@ -268,7 +303,7 @@ export default function Products() {
           rows={data?.data || []}
           columns={columns}
           getRowId={(row) => row._id}
-          getRowHeight={() => 100}
+          getRowHeight={() => 65}
         />
         </Box>
       </Box>

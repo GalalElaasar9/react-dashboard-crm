@@ -15,20 +15,23 @@ import { AddCircle } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { DataGrid } from "@mui/x-data-grid";
-import { brandContext } from "../../../Context/BrandProvider";
+import { brandContext } from "../../../Context/BrandContextProvider";
 
 export default function Brands() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { data, isLoading, isError, error, isPending, mutate } =useContext(brandContext);
+  const { data, isLoading, isError, error, isPending, mutate } =
+    useContext(brandContext);
   const [name, setName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim()) return;
 
-    mutate({ name },{
+    mutate(
+      { name },
+      {
         onSuccess: () => {
           setDialogOpen(false);
           setName("");

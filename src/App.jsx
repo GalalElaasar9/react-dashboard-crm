@@ -26,8 +26,9 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Brands from "./components/scenes/Brands/Brands";
 import Category from "./components/scenes/Category/Category";
-import CategoryProvider from "./Context/CategoryProvider";
-import BrandProvider from "./Context/BrandProvider";
+import ProductsContextProvider from "./Context/ProductsContextProvider";
+import BrandContextProvider from "./Context/BrandContextProvider";
+import CategoryContextProvider from "./Context/CategoryContextProvider";
 
 let clientQuery = new QueryClient();
 
@@ -169,18 +170,21 @@ function App() {
   return (
     <AuthContextProvider>
       <QueryClientProvider client={clientQuery}>
-        <BrandProvider>
-          <CategoryProvider>
-          <ReactQueryDevtools /> {/* خاصة بعرض التغيرات الخاصة بعرض الداتا */}
-          <ColorModeContext.Provider value={colorMode}>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Toaster />
-              <RouterProvider router={router} />
-            </ThemeProvider>
-          </ColorModeContext.Provider>
-          </CategoryProvider>
-        </BrandProvider>
+        <ProductsContextProvider>
+          <BrandContextProvider>
+            <CategoryContextProvider>
+              <ReactQueryDevtools />{" "}
+              {/* خاصة بعرض التغيرات الخاصة بعرض الداتا */}
+              <ColorModeContext.Provider value={colorMode}>
+                <ThemeProvider theme={theme}>
+                  <CssBaseline />
+                  <Toaster />
+                  <RouterProvider router={router} />
+                </ThemeProvider>
+              </ColorModeContext.Provider>
+            </CategoryContextProvider>
+          </BrandContextProvider>
+        </ProductsContextProvider>
       </QueryClientProvider>
     </AuthContextProvider>
   );

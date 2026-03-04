@@ -129,13 +129,13 @@ export default function SideBar({
           />}
 
           {/* DASHBOARD */}
-          <Item
+          {/* <Item
             title="Dashboard"
             to="/"
             Icon={HomeOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
-          />
+          /> */}
           
 
           {/* DATA */}
@@ -165,7 +165,7 @@ export default function SideBar({
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
-          <Item
+          {/* <Item
             title="Manage Team"
             to="/team"
             Icon={PeopleOutlinedIcon}
@@ -178,17 +178,17 @@ export default function SideBar({
             Icon={ContactsOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
-          />
-          <Item
+          /> */}
+          {/* <Item
             title="Invoices"
             to="/invoices"
             Icon={ReceiptOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
-          />
+          /> */}
 
           {/* PAGES */}
-          {!isCollapsed && (
+          {/* {!isCollapsed && (
             <Typography sx={{ m: "15px 0 5px 20px" }} color={colors.grey[300]}>
               Pages
             </Typography>
@@ -207,17 +207,17 @@ export default function SideBar({
             Icon={CalendarTodayOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
-          />
-          <Item
+          /> */}
+          {/* <Item
             title="FAQ"
             to="/faq"
             Icon={HelpOutlineOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
-          />
+          /> */}
 
           {/* CHARTS */}
-          {!isCollapsed && (
+          {/* {!isCollapsed && (
             <Typography sx={{ m: "15px 0 5px 20px" }} color={colors.grey[300]}>
               Charts
             </Typography>
@@ -229,8 +229,8 @@ export default function SideBar({
             Icon={BarChartOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
-          />
-          <Item
+          /> */}
+          {/* <Item
             title="Pie Chart"
             to="/pie"
             Icon={PieChartOutlineOutlinedIcon}
@@ -250,7 +250,7 @@ export default function SideBar({
             Icon={MapOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
-          />
+          /> */}
         </Box>
       </Box>
     </>

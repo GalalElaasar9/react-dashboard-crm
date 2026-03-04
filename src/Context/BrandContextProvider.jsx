@@ -3,7 +3,7 @@ import { createContext } from "react"
 import api from "../components/Apis/AuthApis";
 
 export let brandContext = createContext()
-export default function BrandProvider({children}) {
+export default function BrandContextProvider({children}) {
   const queryClient = useQueryClient();
     // Get All Brands 
   async function getAllBrands(){
