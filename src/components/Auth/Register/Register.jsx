@@ -25,13 +25,13 @@ export default function Register() {
     console.log(values);
     try {
       await registerForm(values);
-      toast.success("Registration successful! Please login.",{
+      toast.success("Registration successful!.",{
         duration:2000,
         position:'top-right'
       })
-      setTimeout(() => {
-        navigate('/login');
-      }, 2100);
+      // setTimeout(() => {
+      //   navigate('/login');
+      // }, 2100);
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong",{
         duration:2000,

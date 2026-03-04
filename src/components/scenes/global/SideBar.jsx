@@ -21,7 +21,7 @@ import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 
 import Item from "../../Item/Item";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { authContext } from "../../../Context/AuthContextProvider";
 
 export default function SideBar({
@@ -35,25 +35,44 @@ export default function SideBar({
   const colors = tokens(theme.palette.mode);
   const isLgUp = useMediaQuery("(min-width:1024px)");
   let {token} = useContext(authContext)
+
+  useEffect(() => {
+    if (isLgUp) {
+      setIsMobileOpen(false);
+    }
+  }, [isLgUp]);
+
   return (
     <>
       {/* Overlay Mobile */}
-      {!isLgUp && isMobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40"
-          onClick={() => setIsMobileOpen(false)}
-        />
-      )}
+      {/* <div
+        // className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
+          !isLgUp && isMobileOpen
+            ? "opacity-100"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setIsMobileOpen(false)}
+      /> */}
 
       <Box
-        className={`fixed top-0 left-0 z-50 h-screen transition-all duration-300
-        ${isLgUp ? "" : isMobileOpen ? "translate-x-0" : "-translate-x-full"}`}
         sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          height: "100vh",
+          zIndex: 50,
           width: isCollapsed && isLgUp ? "80px" : "250px",
           backgroundColor: colors.primary[400],
-          transition: "width 0.3s ease",
           display: "flex",
           flexDirection: "column",
+
+          transform: !isLgUp
+            ? isMobileOpen
+              ? "translateX(0)"
+              : "translateX(-100%)"
+            : "translateX(0)",
+
+          transition: "transform 0.4s ease-in-out, width 0.3s ease-in-out",
         }}
       >
         {/* Header */}
@@ -92,11 +111,28 @@ export default function SideBar({
             overflowX: "hidden",
           }}
         >
+
+        {!token ? <>
+          <Item   
+            title="Login"
+            to="/login"
+            Icon={LoginIcon}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          </>: <Item
+            title="Register"
+            to="/register"
+            Icon={AppRegistration}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />}
+
           {/* DASHBOARD */}
           <Item
             title="Dashboard"
             to="/"
-            icon={<HomeOutlinedIcon />}
+            Icon={HomeOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
@@ -108,61 +144,45 @@ export default function SideBar({
               Data
             </Typography>
           )}
-          {!token ? <>
-          <Item   
-            title="Login"
-            to="/login"
-            icon={<LoginIcon />}
-            isCollapsed={isCollapsed}
-            setIsMobileOpen={setIsMobileOpen}
-          />
-          <Item
-            title="Register"
-            to="/register"
-            icon={<AppRegistration />}
-            isCollapsed={isCollapsed}
-            setIsMobileOpen={setIsMobileOpen}
-          />
-          </>:''}
           <Item
             title="Products"
             to="/products"
-            icon={<PeopleOutlinedIcon />}
+            Icon={PeopleOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Brands"
             to="/brands"
-            icon={<StoreOutlinedIcon />}
+            Icon={StoreOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Categories"
             to="/categories"
-            icon={<CategoryOutlinedIcon />}
+            Icon={CategoryOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Manage Team"
             to="/team"
-            icon={<PeopleOutlinedIcon />}
+            Icon={PeopleOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Contacts"
             to="/contacts"
-            icon={<ContactsOutlinedIcon />}
+            Icon={ContactsOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Invoices"
             to="/invoices"
-            icon={<ReceiptOutlinedIcon />}
+            Icon={ReceiptOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
@@ -177,21 +197,21 @@ export default function SideBar({
           <Item
             title="Profile Form"
             to="/form"
-            icon={<PersonOutlinedIcon />}
+            Icon={PersonOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Calendar"
             to="/calendar"
-            icon={<CalendarTodayOutlinedIcon />}
+            Icon={CalendarTodayOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="FAQ"
             to="/faq"
-            icon={<HelpOutlineOutlinedIcon />}
+            Icon={HelpOutlineOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
@@ -206,28 +226,28 @@ export default function SideBar({
           <Item
             title="Bar Chart"
             to="/bar"
-            icon={<BarChartOutlinedIcon />}
+            Icon={BarChartOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Pie Chart"
             to="/pie"
-            icon={<PieChartOutlineOutlinedIcon />}
+            Icon={PieChartOutlineOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Line Chart"
             to="/line"
-            icon={<TimelineOutlinedIcon />}
+            Icon={TimelineOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
           <Item
             title="Geography"
             to="/geography"
-            icon={<MapOutlinedIcon />}
+            Icon={MapOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />

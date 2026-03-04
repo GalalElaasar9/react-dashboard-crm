@@ -62,12 +62,6 @@ export default function TobBar({ setIsMobileOpen }) {
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
         </IconButton>
-        <Link to={'/carts'}>
-        <IconButton className="position-relative">
-          <AddShoppingCartIcon />
-          {/* <span className={`w-[20px] h-[20px] flex justify-center items-center position-absolute p-2 rounded-full top-[-10px] right-[-5px] text-[15px]`}style={{ backgroundColor: colors.greenAccent[500] }}>0</span> */}
-        </IconButton>
-        </Link>
 
         <IconButton className="hidden sm:inline-flex">
           <PersonIcon />

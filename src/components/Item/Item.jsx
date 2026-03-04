@@ -1,11 +1,12 @@
-import { Typography, Box, Tooltip, useMediaQuery, useTheme } from "@mui/material";
+import { Typography, Box, Tooltip, useMediaQuery, useTheme, Icon } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { tokens } from "../../theme";
+import React from "react";
 
-export default function Item({
+function Item({
   title,
   to,
-  icon,
+  Icon,
   isCollapsed,
   setIsMobileOpen,
 }) {
@@ -43,9 +44,6 @@ export default function Item({
               ? colors.blueAccent[500]
               : colors.grey[100],
             transition: "all 0.3s ease",
-            "&:hover": {
-              // backgroundColor: colors.primary[600],
-            },
           }}
         >
           <Tooltip
@@ -54,7 +52,7 @@ export default function Item({
             arrow
           >
             <Box display="flex" alignItems="center" gap={2} width="100%">
-              {icon}
+              <Icon/>
               {!isCollapsed && (
                 <Typography>
                   {title}
@@ -67,3 +65,5 @@ export default function Item({
     </NavLink>
   );
 }
+
+export default React.memo(Item)

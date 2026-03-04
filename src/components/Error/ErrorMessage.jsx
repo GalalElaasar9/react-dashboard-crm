@@ -1,3 +1,7 @@
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
+import { Box } from "@mui/material";
+
 export default function ErrorMessage({error}) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
