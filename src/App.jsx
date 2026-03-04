@@ -16,7 +16,6 @@ import Line from "./components/scenes/Line/Line";
 import Pie from "./components/scenes/Pie/Pie";
 import Geography from "./components/scenes/Geo/Geo";
 import Products from "./components/scenes/Products/Products";
-import ProductDetails from "./components/scenes/ProductDetails/ProductDetails";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Login from "./components/Auth/Login/Login";
@@ -71,14 +70,6 @@ function App() {
           element: (
             <ProtectedRoute>
               <Category />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "/productDetails/:id/:category",
-          element: (
-            <ProtectedRoute>
-              <ProductDetails />
             </ProtectedRoute>
           ),
         },
@@ -173,7 +164,7 @@ function App() {
         <ProductsContextProvider>
           <BrandContextProvider>
             <CategoryContextProvider>
-              <ReactQueryDevtools />{" "}
+              <ReactQueryDevtools />
               {/* خاصة بعرض التغيرات الخاصة بعرض الداتا */}
               <ColorModeContext.Provider value={colorMode}>
                 <ThemeProvider theme={theme}>
