@@ -62,16 +62,7 @@ export default function Register() {
           dirty
         })=>{
           return <form className="mt-5 pb-3 md:pb-0" onSubmit={handleSubmit}>
-          <Box
-            // display="grid"
-            gap="30px"
-            gridTemplateColumns="repeat(4,minmax(0,1fr))"
-            className='w-[60%] m-auto'
-            sx={{
-              // "&>div": { gridColumn: inNonMobile ? undefined : "span 2" },
-              // "&>div": { gridColumn: inMobile ? "span 4" : "" },
-            }}
-          >
+          <Box className='w-[60%] m-auto'>
             <TextField
               fullWidth
               variant="filled"
