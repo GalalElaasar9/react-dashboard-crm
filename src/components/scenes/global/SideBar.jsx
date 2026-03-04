@@ -65,13 +65,7 @@ export default function SideBar({
           backgroundColor: colors.primary[400],
           display: "flex",
           flexDirection: "column",
-
-          transform: !isLgUp
-            ? isMobileOpen
-              ? "translateX(0)"
-              : "translateX(-100%)"
-            : "translateX(0)",
-
+          transform: !isLgUp ? isMobileOpen ? "translateX(0)" : "translateX(-100%)" : "translateX(0)",
           transition: "transform 0.4s ease-in-out, width 0.3s ease-in-out",
         }}
       >
@@ -129,13 +123,13 @@ export default function SideBar({
           />}
 
           {/* DASHBOARD */}
-          {/* <Item
+          <Item
             title="Dashboard"
             to="/"
             Icon={HomeOutlinedIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
-          /> */}
+          />
           
 
           {/* DATA */}

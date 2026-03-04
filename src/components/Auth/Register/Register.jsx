@@ -1,10 +1,12 @@
-import { Box, TextField , Button } from '@mui/material'
+import { Box, TextField , Button, CircularProgress } from '@mui/material'
 import Header from '../../Header/Header'
 import { useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import * as yup from "yup";
 import { registerForm } from '../../Apis/AuthApis';
 import toast from "react-hot-toast";
+import { useMutation } from '@tanstack/react-query';
+import { useCallback } from 'react';
 
 const initialValues = {
   name:"",
@@ -20,26 +22,28 @@ const validationForm = yup.object().shape({
 })
 
 export default function Register() {
-  let navigate = useNavigate()
-  async function handleRegisterForm(values , {resetForm}) {
-    console.log(values);
-    try {
-      await registerForm(values);
+  const {mutate , isPending} = useMutation({
+    mutationFn:registerForm,
+    onSuccess:()=>{
       toast.success("Registration successful!.",{
         duration:2000,
         position:'top-right'
       })
-      // setTimeout(() => {
-      //   navigate('/login');
-      // }, 2100);
-    } catch (error) {
+    },
+    onError:(error)=>{
       toast.error(error.response?.data?.message || "Something went wrong",{
         duration:2000,
         position:'top-right'
       })
     }
-    resetForm()
-  }
+  })
+
+  const handleRegisterForm = useCallback((values) => {
+      mutate(values);
+    },
+    [mutate]
+  );
+
   return (
     <div className="px-4">
       <Box className="mt-4">
@@ -62,7 +66,7 @@ export default function Register() {
           dirty
         })=>{
           return <form className="mt-5 pb-3 md:pb-0" onSubmit={handleSubmit}>
-          <Box className='w-[60%] m-auto'>
+          <Box maxWidth={'500px'} mx={'auto'} mt={4} display={'flex'} flexDirection={'column'} gap={3}>
             <TextField
               fullWidth
               variant="filled"
@@ -103,15 +107,19 @@ export default function Register() {
               error={touched.password && Boolean(errors.password)}
               helperText={touched.password && errors.password}
             ></TextField>
-          </Box>
-          <Box display="flex" justifyContent={"end"} mt={"20px"}>
-            <Button type="submit" disabled={!(isValid && dirty)} color="secondary" variant="contained" sx={{ fontWeight:"600" }}>
-              Create New Admin
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              disabled={!isValid || !dirty || isPending}
+              sx={{ fontWeight: 600, height: 45 }}
+            >
+              {isPending ? <CircularProgress size={24} color="inherit" /> : "Create New Admin"}
             </Button>
           </Box>
         </form>
-        }}</Formik>
-
+        }}
+        </Formik>
       </Box>
     </div>
   )
