@@ -44,8 +44,27 @@ export default function ProductFormDialog({ open, setOpen, mode, product }) {
       setDescription(product.description);
       setBrand(product.brand?._id || "");
       setCategory(product.category?._id || "");
-      setColorsList(product.colors ? JSON.parse(product.colors[0]) : []);
-      setSizesList(product.sizes ? JSON.parse(product.sizes[0]) : []);
+      // Colors
+      if (product.colors?.[0]) {
+        try {
+          setColorsList(JSON.parse(product.colors[0]));
+        } catch {
+          setColorsList([]);
+        }
+      } else {
+        setColorsList([]);
+      }
+
+      // Sizes
+      if (product.sizes?.[0]) {
+        try {
+          setSizesList(JSON.parse(product.sizes[0]));
+        } catch {
+          setSizesList([]);
+        }
+      } else {
+        setSizesList([]);
+      }
       setImages([]);
     } else {
       setName("");

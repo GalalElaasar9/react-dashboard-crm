@@ -1,4 +1,4 @@
-import { Box, TextField , Button, CircularProgress } from '@mui/material'
+import { Box, TextField , Button, CircularProgress, InputAdornment, IconButton } from '@mui/material'
 import Header from '../../Header/Header'
 import { useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
@@ -6,7 +6,8 @@ import * as yup from "yup";
 import { registerForm } from '../../Apis/AuthApis';
 import toast from "react-hot-toast";
 import { useMutation } from '@tanstack/react-query';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const initialValues = {
   name:"",
@@ -22,6 +23,7 @@ const validationForm = yup.object().shape({
 })
 
 export default function Register() {
+  const [showPassword , setShowPassword] = useState(false)
   const {mutate , isPending} = useMutation({
     mutationFn:registerForm,
     onSuccess:()=>{
@@ -66,7 +68,7 @@ export default function Register() {
           dirty
         })=>{
           return <form className="mt-5 pb-3 md:pb-0" onSubmit={handleSubmit}>
-          <Box maxWidth={'500px'} mx={'auto'} mt={4} display={'flex'} flexDirection={'column'} gap={3}>
+          <Box maxWidth={'500px'} mx={'auto'} mt={4} display={'flex'} flexDirection={'column'} gap={2}>
             <TextField
               fullWidth
               variant="filled"
@@ -97,7 +99,7 @@ export default function Register() {
             <TextField
               fullWidth
               variant="filled"
-              type="password"
+              type={showPassword ? "text" : "password"}
               label="Password"
               className="mb-3"
               onBlur={handleBlur}
@@ -106,6 +108,20 @@ export default function Register() {
               name="password"
               error={touched.password && Boolean(errors.password)}
               helperText={touched.password && errors.password}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() =>
+                        setShowPassword((prev) => !prev)
+                      }
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             ></TextField>
             <Button
               type="submit"

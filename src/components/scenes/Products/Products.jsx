@@ -121,9 +121,7 @@ export default function Products() {
       headerName: "Sizes",
       flex: 1,
       renderCell: (params) => {
-        const sizes = params.row.sizes?.[0]
-          ? JSON.parse(params.row.sizes[0])
-          : [];
+        const sizes = params.row.sizes?.[0] ? JSON.parse(params.row.sizes[0]) : [];
 
         if (sizes.length === 0) return "No Sizes";
 
@@ -142,7 +140,7 @@ export default function Products() {
                   alignItems: "center",
                 }}
               >
-                <Typography variant="body2">{s}</Typography>
+                <Typography variant="body2" className="uppercase">{s}</Typography>
               </Box>
             ))}
           </Box>
