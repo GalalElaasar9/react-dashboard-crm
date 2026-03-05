@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
+import SideBar from "../../scenes/global/SideBar";
+import TobBar from "../../scenes/global/TobBar";
 
-import SideBar from "../scenes/global/SideBar";
-import TobBar from "../scenes/global/TobBar";
 
-export default function Layout() {
+export default function MainLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const isLgUp = useMediaQuery('(min-width:1024px)'); // Desktop breakpoint
+  const isLgUp = useMediaQuery("(min-width:1024px)"); // Desktop breakpoint
 
   return (
     <div className="app flex h-screen relative">
@@ -22,7 +22,7 @@ export default function Layout() {
         <main
           className="flex-1 transition-all duration-300"
           style={{
-            marginLeft: isLgUp ? (isCollapsed ? "80px" : "250px") : 0
+            marginLeft: isLgUp ? (isCollapsed ? "80px" : "250px") : 0,
           }}
         >
           <TobBar setIsMobileOpen={setIsMobileOpen} />

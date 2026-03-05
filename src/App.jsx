@@ -3,7 +3,6 @@ import { ColorModeContext, useMode } from "./theme";
 import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 
-import Layout from "../src/components/Layout/Layout";
 import Dashboard from "./components/scenes/dashboard/Dashboard";
 import Team from "./components/scenes/Team/Team";
 import Contacts from "./components/scenes/Contacts/Contacts";
@@ -28,6 +27,8 @@ import Category from "./components/scenes/Category/Category";
 import ProductsContextProvider from "./Context/ProductsContextProvider";
 import BrandContextProvider from "./Context/BrandContextProvider";
 import CategoryContextProvider from "./Context/CategoryContextProvider";
+import MainLayout from "./components/Layouts/MainLayout/MainLayout";
+import AuthLayout from "./components/Layouts/AuthLayout/AuthLayout";
 
 let clientQuery = new QueryClient();
 
@@ -36,8 +37,17 @@ function App() {
 
   const router = createBrowserRouter([
     {
+      element: <AuthLayout />,
+      children: [
+        {
+          path: "/login",
+          element: <Login />,
+        },
+      ],
+    },
+    {
       path: "/",
-      element: <Layout />,
+      element: <MainLayout />,
       children: [
         {
           index: true,
@@ -47,7 +57,7 @@ function App() {
             </ProtectedRoute>
           ),
         },
-        { path: "/login", element: <Login /> },
+        // { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
         {
           path: "/products",
