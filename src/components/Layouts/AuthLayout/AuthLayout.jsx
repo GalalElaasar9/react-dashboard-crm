@@ -9,7 +9,7 @@ export default function AuthLayout() {
   const isLgUp = useMediaQuery("(min-width:1024px)"); // Desktop breakpoint
   return (
     <div style={{ height: "100vh" }}>
-      <TobBar setIsMobileOpen={setIsMobileOpen} />
+      {/* <TobBar setIsMobileOpen={setIsMobileOpen} /> */}
       <Outlet />
     </div>
   );

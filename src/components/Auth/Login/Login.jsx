@@ -1,13 +1,14 @@
 import {
   Box,
-  TextField,
   Button,
+  TextField,
+  Typography,
+  useTheme,
   IconButton,
   InputAdornment,
   CircularProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import Header from "../../Header/Header";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { loginForm } from "../../Apis/AuthApis";
@@ -17,25 +18,20 @@ import { authContext } from "../../../Context/AuthContextProvider";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
+import { tokens } from "../../../theme";
+
 const initialValues = {
   email: "",
   password: "",
 };
-
 const validationForm = yup.object().shape({
-  email: yup
-    .string()
-    .email("Invalid email")
-    .required("Email is required"),
-
-  password: yup
-    .string()
-    .min(6, "Minimum 6 characters")
-    .max(20, "Maximum 20 characters")
-    .required("Password is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string().min(6, "Minimum 6 characters").max(20, "Maximum 20 characters").required("Password is required"),
 });
 
 export default function Login() {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
   const { login } = useContext(authContext);
   const [showPassword, setShowPassword] = useState(false);
@@ -75,36 +71,79 @@ export default function Login() {
   );
 
   return (
-    <Box px={2} py={4}>
-      <Header
-        title="Login Now"
-        subTitle="Enter your credentials to access dashboard"
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100%",
+        backgroundImage:"url(https://images.unsplash.com/photo-1490481651871-ab68de25d43d)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {/* overlay */}
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(0,0,0,0.55)",
+        }}
       />
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationForm}
-        onSubmit={handleLoginForm}
+
+      {/* Login Card */}
+      <Box
+        sx={{
+          position: "relative",
+          maxWidth: "500px",
+          width:"100%",
+          padding: "40px",
+          borderRadius: "10px",
+          backdropFilter: "blur(15px)",
+          background: "rgba(255,255,255,0.08)",
+          border: "1px solid rgba(255,255,255,0.2)",
+        }}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isValid,
-          dirty,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <Box
-              maxWidth="500px"
-              mx="auto"
-              mt={4}
-              display="flex"
-              flexDirection="column"
-              gap={3}
-            >
+
+        <Typography
+          variant="h3"
+          fontWeight="bold"
+          color="white"
+          textAlign="center"
+          mb={1}
+        >
+          FASHION STORE
+        </Typography>
+
+        <Typography
+          textAlign="center"
+          color="rgba(255,255,255,0.7)"
+          mb={4}
+          variant="body1"
+        >
+          Sign In To Your Dashboard
+        </Typography>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationForm}
+          onSubmit={handleLoginForm}
+          validateOnMount={true}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isValid,
+            dirty,
+          })=>{
+            return <form onSubmit={handleSubmit}>
               <TextField
+                fullWidth
                 variant="filled"
                 type="email"
                 label="Email Address"
@@ -114,20 +153,24 @@ export default function Login() {
                 onBlur={handleBlur}
                 error={touched.email && Boolean(errors.email)}
                 helperText={touched.email && errors.email}
-                fullWidth
+                sx={{
+                  mb: 2,
+                  input: { color: "white" },
+                  label: { color: "white" },
+                }}
               />
 
               <TextField
-                variant="filled"
-                type={showPassword ? "text" : "password"}
                 label="Password"
+                type={showPassword ? "text" : "password"}
+                fullWidth
                 name="password"
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.password && Boolean(errors.password)}
                 helperText={touched.password && errors.password}
-                fullWidth
+                variant="filled"
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -142,21 +185,37 @@ export default function Login() {
                     </InputAdornment>
                   ),
                 }}
+                sx={{
+                  mb: 3,
+                  input: { color: "white" },
+                  label: { color: "white" },
+                }}
               />
-
               <Button
+                fullWidth
+                variant="filled"
                 type="submit"
-                variant="contained"
                 color="secondary"
                 disabled={!isValid || !dirty || isPending}
-                sx={{ fontWeight: 600, height: 45 }}
+                sx={{
+                  py: 1.3,
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  borderRadius: "5px",
+                  background: colors.greenAccent[500],
+                  transition:'0.3s all ease-in-out',
+                  ":hover": {
+                    background: colors.greenAccent[600],
+                  },
+                }}
               >
                 {isPending ? <CircularProgress size={24} color="inherit" /> : "Login"}
               </Button>
-            </Box>
-          </form>
-        )}
-      </Formik>
+            </form>
+          }}
+        </Formik>
+
+      </Box>
     </Box>
   );
 }
