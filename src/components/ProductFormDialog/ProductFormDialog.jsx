@@ -127,7 +127,19 @@ export default function ProductFormDialog({ open, setOpen, mode, product }) {
   };
 
   return (
-    <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        fullWidth
+        maxWidth="sm"
+        PaperProps={{
+          sx: {
+            padding: "20px 10px !important",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? "#1F2A40 !important" : "#F5F5F5 !important",
+          },
+        }}
+      >
       <DialogTitle>
         {mode === "add" ? "Add Product" : "Edit Product"}
       </DialogTitle>
@@ -226,10 +238,10 @@ export default function ProductFormDialog({ open, setOpen, mode, product }) {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button variant="contained" className="!font-bold" onClick={handleSubmit} sx={{ backgroundColor:colors.greenAccent[500] }}>
           {mode === "add" ? "Add Product" : "Update Product"}
         </Button>
-        <Button variant="contained" onClick={() => setOpen(false)}>
+        <Button variant="contained" className="!font-bold" onClick={() => setOpen(false)} sx={{ backgroundColor:colors.greenAccent[500] }}>
           Cancel
         </Button>
       </DialogActions>

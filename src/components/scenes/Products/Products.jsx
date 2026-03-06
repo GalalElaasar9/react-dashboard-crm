@@ -233,12 +233,19 @@ export default function Products() {
           </Button>
         </Box>
       </Box>
-            {/* View Product */}
+      {/* View Product */}
       <Dialog
         open={dialogOpen}
         onClose={()=>setDialogOpen(false)}
         fullWidth
         maxWidth="sm"
+        PaperProps={{
+          sx: {
+            padding: "20px 10px !important",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? "#1F2A40 !important" : "#F5F5F5 !important",
+          },
+        }}
       >
         <DialogTitle variant="h2">Product Title</DialogTitle>
         <DialogContent dividers>

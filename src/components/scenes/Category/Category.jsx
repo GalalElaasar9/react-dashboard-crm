@@ -127,9 +127,14 @@ export default function Category() {
         onClose={() => setDialogOpen(false)}
         TransitionComponent={Grow}
         fullWidth
-        // sx={{ backgroundColor:colors.primary[400] }}
-        // style={{ maxWidth:"500px" , width:"100%" }}
         maxWidth="sm"
+        PaperProps={{
+          sx: {
+            padding: "20px 10px !important",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? "#1F2A40 !important" : "#F5F5F5 !important",
+          },
+        }}
       >
         <form onSubmit={handleSubmit}>
           <Box>
@@ -151,7 +156,8 @@ export default function Category() {
             disabled={isPending}
             type="submit"
             variant="contained"
-            className="w-full mt-3 sm:w-auto"
+            className="w-full mt-3 sm:w-auto !font-bold"
+            sx={{ backgroundColor: colors.greenAccent[500],}}
           >
             {isPending ? "Adding..." : "Add Category"}
           </Button>
@@ -163,7 +169,7 @@ export default function Category() {
           title={"All Category"}
           subTitle={"All Category Available In The Store"}
         />
-        <Box>
+        <Box >
           <Button
             onClick={() => setDialogOpen(true)}
             className="w-full sm:w-auto"

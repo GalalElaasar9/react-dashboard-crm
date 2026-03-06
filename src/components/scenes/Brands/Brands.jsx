@@ -72,6 +72,13 @@ export default function Brands() {
         TransitionComponent={Grow}
         fullWidth
         maxWidth="sm"
+        PaperProps={{
+          sx: {
+            padding: "20px 10px !important",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? "#1F2A40 !important" : "#F5F5F5 !important",
+          },
+        }}
       >
         <form onSubmit={handleSubmit}>
           <Box>
@@ -93,7 +100,8 @@ export default function Brands() {
             disabled={isPending}
             type="submit"
             variant="contained"
-            className="w-full mt-3 sm:w-auto"
+            className="w-full mt-3 sm:w-auto !font-bold"
+            sx={{ backgroundColor: colors.greenAccent[500],}}
           >
             {isPending ? "Adding..." : "Add Brand"}
           </Button>
