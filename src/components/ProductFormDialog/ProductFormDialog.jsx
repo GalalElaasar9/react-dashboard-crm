@@ -231,7 +231,6 @@ export default function ProductFormDialog({ open, setOpen, mode, product }) {
           {/* Images upload */}
           <input
             type="file"
-            multiple
             accept="image/*"
             onChange={(e) => setImages(Array.from(e.target.files))}
           />
