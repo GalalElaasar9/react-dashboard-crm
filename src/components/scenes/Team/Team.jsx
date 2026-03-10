@@ -29,8 +29,9 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect } from "react";
+import { GridToolbar } from "@mui/x-data-grid/internals";
 
-export default function Team() {  
+export default function Team() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -51,22 +52,24 @@ export default function Team() {
     email: yup.string().email().required("Email Is Required"),
     age: yup.number().required("Age Is Required"),
     phone: yup
-    .string()
-    .matches(/^01[0125]\d{8}$/, "Phone Must Be Egyption Phone Number")
-    .required("Phone Number Is Required"),
+      .string()
+      .matches(/^01[0125]\d{8}$/, "Phone Must Be Egyption Phone Number")
+      .required("Phone Number Is Required"),
     // assess: yup.required("Assess Is Required"),
   });
 
-  const isEditMode = Boolean(editingUser)
-  
-  const initialValues = isEditMode ? {...editingUser} : {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    age: "",
-    access: "user",
-  };
+  const isEditMode = Boolean(editingUser);
+
+  const initialValues = isEditMode
+    ? { ...editingUser }
+    : {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        age: "",
+        access: "user",
+      };
 
   function getNextId(users) {
     if (users.length === 0) return 1;
@@ -76,23 +79,32 @@ export default function Team() {
   function handleFormSubmit(values, { resetForm }) {
     console.log(values);
     if (isEditMode) {
-      setUsers(prev => prev.map(user=> user.id === editingUser.id ? {...user , ...values , name:`${values.firstName} ${values.lastName}`} : user))
-    }else{
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.id === editingUser.id
+            ? {
+                ...user,
+                ...values,
+                name: `${values.firstName} ${values.lastName}`,
+              }
+            : user,
+        ),
+      );
+    } else {
       const newUser = {
         id: getNextId(users),
         name: `${values.firstName} ${values.lastName}`,
         age: values.age,
         phone: values.phone,
         email: values.email,
-        access: values.access
+        access: values.access,
       };
       setUsers((prev) => [...prev, newUser]);
     }
     resetForm();
     setDialogOpen(false);
-    setEditingUser(null)
+    setEditingUser(null);
   }
-
 
   function handleEditUser(row) {
     console.log(row);
@@ -105,12 +117,11 @@ export default function Team() {
       phone: row.phone,
       age: row.age,
       access: row.access,
-    }
-    setEditingUser(editUser)
-    setDialogOpen(true)
+    };
+    setEditingUser(editUser);
+    setDialogOpen(true);
   }
 
-  
   function handleDelete(id) {
     setUsers((prev) => prev.filter((user) => user.id !== id));
   }
@@ -126,7 +137,7 @@ export default function Team() {
       field: "name",
       headerName: "Name",
       flex: 1,
-      cellClassName: "name-column-cell",
+      cellClassName: "name-cell",
     },
     { field: "age", headerName: "Age", headerAlign: "left", align: "left" },
     { field: "phone", headerName: "Phone Number", flex: 1 },
@@ -163,25 +174,22 @@ export default function Team() {
       flex: 1,
       renderCell: ({ row }) => {
         return (
-          <Box display="flex" gap="10px" backgroundColor={colors.greenAccent[600]} 
-            width={{ xs:"100%" , md:"50%" }}
+          <Box
+            display="flex"
+            gap="10px"
+            width={{ xs: "100%", md: "50%" }}
             m="0 auto"
             p="5px"
             justifyContent="center !important"
-            alignItems={'center'}
-            borderRadius={'4px'}>
-            <IconButton
-              color="primary"
-              onClick={() => handleEditUser(row)}
-            >
-              <Edit />
+            alignItems={"center"}
+            borderRadius={"4px"}
+          >
+            <IconButton onClick={() => handleEditUser(row)}>
+              <Edit color="secondary"/>
             </IconButton>
 
-            <IconButton
-              color="error"
-              onClick={() => handleDelete(row.id)}
-            >
-              <Delete />
+            <IconButton onClick={() => handleDelete(row.id)}>
+              <Delete color="error"/>
             </IconButton>
           </Box>
         );
@@ -216,7 +224,11 @@ export default function Team() {
               <Box
                 display="grid"
                 gap="20px"
-                gridTemplateColumns={inNonMobile ? "repeat(4,minmax(0,1fr))" : "repeat(2,minmax(0,1fr))"}
+                gridTemplateColumns={
+                  inNonMobile
+                    ? "repeat(4,minmax(0,1fr))"
+                    : "repeat(2,minmax(0,1fr))"
+                }
               >
                 <TextField
                   sx={{ gridColumn: "span 2" }}
@@ -306,7 +318,11 @@ export default function Team() {
                 </FormControl>
               </Box>
               <DialogActions className="!px-0 !pb-0">
-                <Button type="submit" variant="contained" className="w-full sm:w-auto">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className="w-full sm:w-auto"
+                >
                   {isEditMode ? "Save Changes" : "Add User"}
                 </Button>
               </DialogActions>
@@ -342,29 +358,43 @@ export default function Team() {
           sx={{
             minWidth: 600,
             "& .MuiDataGrid-root": { border: "none" },
-            "& .MuiDataGrid-columnHeaders": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
+            "& .MuiDataGrid-columnHeaders , & .MuiDataGrid-toolbar": {
+              borderTop: "none",
+              backgroundColor: colors.blueAccent[700],
+            },
+            "& .MuiButtonBase-root":{
+              color: `${colors.grey[100]} !important`,
+            },
             "& .MuiDataGrid-cell": { borderBottom: "none" },
-            "& .name-column-cell": { color: colors.greenAccent[300] },
-            "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[400] },
+            "& .name-cell": { color: colors.greenAccent[300] },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: colors.primary[400],
+            },
             "& .MuiDataGrid-footerContainer ,& .MuiDataGrid-columnHeaders ": {
               borderTop: "none",
               backgroundColor: colors.blueAccent[700],
             },
-            ".css-ts2lp0":{
-              width:"100%"
+            ".css-ts2lp0": {
+              width: "100%",
             },
-            ".MuiDataGrid-cell" :{
-              display:"flex",
-              justifyContent:"center",
-              alignItems:"center",
-              "> div":{
-                maxHeight:"30px",
-                height:"100%"
-              }
-            }
+            ".MuiDataGrid-cell": {
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              "> div": {
+                maxHeight: "30px",
+                height: "100%",
+              },
+            },
           }}
         >
-          <DataGrid rows={users} columns={columns} autoHeight />
+          <DataGrid
+            rows={users}
+            columns={columns}
+            autoHeight
+            slots={{ toolbar: GridToolbar }}
+            showToolbar
+          />
         </Box>
       </Box>
     </div>

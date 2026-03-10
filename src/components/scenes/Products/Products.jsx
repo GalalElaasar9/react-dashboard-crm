@@ -167,7 +167,7 @@ export default function Products() {
               setDialogOpen(true);
             }}
           >
-            <VisibilityIcon />
+            <VisibilityIcon color="success"/>
           </IconButton>
 
           <IconButton
@@ -177,7 +177,7 @@ export default function Products() {
               setFormDialogOpen(true);
             }}
           >
-            <EditIcon />
+            <EditIcon color="secondary"/>
           </IconButton>
 
           <IconButton
@@ -192,7 +192,7 @@ export default function Products() {
               }
             }}
           >
-            <DeleteIcon />
+            <DeleteIcon color="error"/>
           </IconButton>
         </Box>
       ),

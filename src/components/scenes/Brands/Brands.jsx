@@ -16,6 +16,7 @@ import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { DataGrid } from "@mui/x-data-grid";
 import { brandContext } from "../../../Context/BrandContextProvider";
+import { GridToolbar } from "@mui/x-data-grid/internals";
 
 export default function Brands() {
   const theme = useTheme();
@@ -131,7 +132,6 @@ export default function Brands() {
       </Box>
       <Box className="overflow-auto">
         <Box
-          // minWidth="800px"
           sx={{
             "& .MuiDataGrid-root": {
               border: "none",
@@ -139,7 +139,7 @@ export default function Brands() {
             "& .MuiDataGrid-cell": {
               borderBottom: "none",
             },
-            "& .name-cell": {
+            "& .name-column-cell": {
               color: colors.greenAccent[300],
               fontWeight: "600",
             },
@@ -150,23 +150,28 @@ export default function Brands() {
             "& .MuiDataGrid-virtualScroller": {
               backgroundColor: colors.primary[400],
             },
-            "& .MuiDataGrid-footerContainer": {
+            "& .MuiDataGrid-footerContainer , & .MuiDataGrid-toolbar": {
               borderTop: "none",
               backgroundColor: colors.blueAccent[700],
             },
             "& .MuiCheckbox-root": {
               color: `${colors.greenAccent[200]} !important`,
             },
-            "& .MuiDataGrid-cell": {
-              display: "flex",
-              alignItems: "center",
+            "& .MuiDataGrid-cell" :{
+              display:"flex",
+              alignItems:'center',
             },
+            "& .MuiButtonBase-root":{
+              color: `${colors.grey[100]} !important`,
+            }
           }}
         >
           <DataGrid
             rows={data?.data || []}
             columns={columns}
             getRowId={(row) => row._id}
+            slots={{ toolbar: GridToolbar }}
+            showToolbar
           />
         </Box>
       </Box>
