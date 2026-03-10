@@ -9,8 +9,7 @@ export default function ErrorMessage({error}) {
   return (
     <div className="h-screen flex justify-center items-center">
       <Box
-        bgcolor={colors.blueAccent[700]}
-        className="alert text-center w-[50%] font-bold"
+        className="alert alert-danger text-center w-[50%] font-bold"
       >
         {error}
       </Box>

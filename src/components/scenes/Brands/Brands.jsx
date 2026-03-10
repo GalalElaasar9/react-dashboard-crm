@@ -30,8 +30,7 @@ export default function Brands() {
     if (!name.trim()) return;
 
     mutate(
-      { name },
-      {
+      { name },{
         onSuccess: () => {
           setDialogOpen(false);
           setName("");

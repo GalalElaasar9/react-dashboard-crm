@@ -47,7 +47,7 @@ export default function Register() {
   );
 
   return (
-    <div className="px-4">
+    <Box className="px-4">
       <Box className="mt-4">
         <Header
           title={"Register Now"}
@@ -137,6 +137,6 @@ export default function Register() {
         }}
         </Formik>
       </Box>
-    </div>
+    </Box>
   )
 }

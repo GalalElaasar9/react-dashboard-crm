@@ -1,11 +1,8 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, useTheme } from "@mui/material";
 import Header from "../../Header/Header";
 import { tokens } from "../../../theme";
-import api from "../../Apis/AuthApis";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// import ProductCard from "../ProductCard/ProductCard";
 import LoadingScreen from "../../Loading/LoadingScreen";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid , GridToolbar } from "@mui/x-data-grid";
 import { AddCircle } from "@mui/icons-material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,6 +12,7 @@ import { useContext, useMemo, useState } from "react";
 import ErrorMessage from "../../Error/ErrorMessage";
 import ProductFormDialog from "../../ProductFormDialog/ProductFormDialog";
 import { productsContext } from "../../../Context/ProductsContextProvider";
+// import {  } from "@mui/x-data-grid/internals";
 
 export default function Products() {
   const theme = useTheme();
@@ -25,6 +23,12 @@ export default function Products() {
   const [formDialogOpen , setFormDialogOpen] = useState(false)
   const [formMode , setFormMode] = useState("add") // add or edit
   const {data, isLoading, isError , error , deleteProduct} = useContext(productsContext)
+
+  // const filteredProducts = useMemo(() => {
+  //   return data?.data?.filter((product) =>
+  //     product.name.toLowerCase().includes(search.toLowerCase())
+  //   );
+  // }, [data?.data, search]);
 
   // Delete Product
   async function handleDeleteProduct(id) {
@@ -43,6 +47,8 @@ export default function Products() {
     }  
     })
   }
+
+
   // Columns 
   const columns = useMemo(() => [
     { field: "name", headerName: "Name", flex: 1, cellClassName: "name-cell" },
@@ -247,7 +253,7 @@ export default function Products() {
           },
         }}
       >
-        <DialogTitle variant="h2">Product Title</DialogTitle>
+        <DialogTitle variant="h2">Product Details</DialogTitle>
         <DialogContent dividers>
           {selectedProduct && (
             <Box display="flex" flexDirection="column" gap={2}>
@@ -270,7 +276,8 @@ export default function Products() {
       </Dialog>
       {/* Dialog Add/Edit Product */}
       <ProductFormDialog open={formDialogOpen} setOpen={setFormDialogOpen} mode={formMode} product={selectedProduct}/>
-      <Box className="overflow-auto">
+      
+      {/* <Box className="overflow-auto"> */}
         <Box 
           minWidth="800px"
           sx={{
@@ -291,7 +298,7 @@ export default function Products() {
             "& .MuiDataGrid-virtualScroller": {
               backgroundColor: colors.primary[400],
             },
-            "& .MuiDataGrid-footerContainer": {
+            "& .MuiDataGrid-footerContainer , & .MuiDataGrid-toolbar": {
               borderTop: "none",
               backgroundColor: colors.blueAccent[700],
             },
@@ -302,6 +309,9 @@ export default function Products() {
               display:"flex",
               alignItems:'center',
             },
+            "& .MuiButtonBase-root":{
+              color: `${colors.grey[100]} !important`,
+            }
           }}
         >
         <DataGrid
@@ -309,9 +319,11 @@ export default function Products() {
           columns={columns}
           getRowId={(row) => row._id}
           getRowHeight={() => 65}
+          slots={{ toolbar: GridToolbar }}
+          showToolbar
         />
         </Box>
-      </Box>
+      {/* </Box> */}
     </Box>
   );
 }

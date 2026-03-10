@@ -29,6 +29,8 @@ import BrandContextProvider from "./Context/BrandContextProvider";
 import CategoryContextProvider from "./Context/CategoryContextProvider";
 import MainLayout from "./components/Layouts/MainLayout/MainLayout";
 import AuthLayout from "./components/Layouts/AuthLayout/AuthLayout";
+import Orders from "./components/scenes/Orders/Orders";
+import OrdersContextProvider from "./Context/OrdersContextProvider";
 
 let clientQuery = new QueryClient();
 
@@ -80,6 +82,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <Category />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/orders",
+          element: (
+            <ProtectedRoute>
+              <Orders />
             </ProtectedRoute>
           ),
         },
@@ -174,15 +184,17 @@ function App() {
         <ProductsContextProvider>
           <BrandContextProvider>
             <CategoryContextProvider>
-              <ReactQueryDevtools />
-              {/* خاصة بعرض التغيرات الخاصة بعرض الداتا */}
-              <ColorModeContext.Provider value={colorMode}>
-                <ThemeProvider theme={theme}>
-                  <CssBaseline />
-                  <Toaster />
-                  <RouterProvider router={router} />
-                </ThemeProvider>
-              </ColorModeContext.Provider>
+              <OrdersContextProvider>
+                <ReactQueryDevtools />
+                {/* خاصة بعرض التغيرات الخاصة بعرض الداتا */}
+                <ColorModeContext.Provider value={colorMode}>
+                  <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <Toaster />
+                    <RouterProvider router={router} />
+                  </ThemeProvider>
+                </ColorModeContext.Provider>
+              </OrdersContextProvider>
             </CategoryContextProvider>
           </BrandContextProvider>
         </ProductsContextProvider>

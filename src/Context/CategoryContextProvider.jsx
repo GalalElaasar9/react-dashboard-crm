@@ -14,7 +14,7 @@ export default function CategoryContextProvider({children}) {
   const {data , isLoading , isError , error} = useQuery({
     queryKey:["categories"],
     queryFn:getAllCategories,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10,
     retry: 3,
   })
 

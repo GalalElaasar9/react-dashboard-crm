@@ -19,6 +19,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import AppRegistration from '@mui/icons-material/AppRegistration';
 import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 import Item from "../../Item/Item";
 import { useContext, useEffect } from "react";
@@ -156,6 +157,13 @@ export default function SideBar({
             title="Categories"
             to="/categories"
             Icon={CategoryOutlinedIcon}
+            isCollapsed={isCollapsed}
+            setIsMobileOpen={setIsMobileOpen}
+          />
+          <Item
+            title="Orders"
+            to="/orders"
+            Icon={LocalShippingIcon}
             isCollapsed={isCollapsed}
             setIsMobileOpen={setIsMobileOpen}
           />
