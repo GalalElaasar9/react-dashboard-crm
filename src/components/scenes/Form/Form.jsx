@@ -2,6 +2,7 @@ import { Box, Button, TextField, useMediaQuery } from "@mui/material";
 import Header from "../../Header/Header";
 import * as yup from "yup";
 import { Formik } from "formik";
+import { Helmet } from "react-helmet-async";
 
 const initialValues = {
   firstName: "",
@@ -34,6 +35,9 @@ export default function Form() {
 
   return (
     <>
+      <Helmet>
+        <title>Form | Admin Dashboard</title>
+      </Helmet>
       <Box className="mt-4 px-4">
         <Header title={"CREATE PROFILE"} subTitle={"Create A New Profile Now !"} />
         <Formik

@@ -12,6 +12,7 @@ import { useContext, useMemo, useState } from "react";
 import ErrorMessage from "../../Error/ErrorMessage";
 import ProductFormDialog from "../../ProductFormDialog/ProductFormDialog";
 import { productsContext } from "../../../Context/ProductsContextProvider";
+import { Helmet } from "react-helmet-async";
 // import {  } from "@mui/x-data-grid/internals";
 
 export default function Products() {
@@ -212,118 +213,123 @@ export default function Products() {
 
 
   return (
-    <Box className="px-4">
-      <Box className="my-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ">
-        <Header
-          title={"All Products"}
-          subTitle={"All Products Available In The Store"}
-        />
-        <Box>
-          <Button
-            className="w-full sm:w-auto"
-            sx={{
-              backgroundColor: colors.greenAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              p: "10px 20px",
-              fontWeight: "bold",
-            }}
-            onClick={()=>{
-              setFormMode("add");
-              setFormDialogOpen(true)
-              setSelectedProduct(null)
-            }}
-          >
-            <AddCircle className="mr-2" />
-            Add Product
-          </Button>
+    <>
+      <Helmet>
+        <title>Products | Admin Dashboard</title>
+      </Helmet>
+      <Box className="px-4">
+        <Box className="my-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ">
+          <Header
+            title={"All Products"}
+            subTitle={"All Products Available In The Store"}
+          />
+          <Box>
+            <Button
+              className="w-full sm:w-auto"
+              sx={{
+                backgroundColor: colors.greenAccent[700],
+                color: colors.grey[100],
+                fontSize: "14px",
+                p: "10px 20px",
+                fontWeight: "bold",
+              }}
+              onClick={()=>{
+                setFormMode("add");
+                setFormDialogOpen(true)
+                setSelectedProduct(null)
+              }}
+            >
+              <AddCircle className="mr-2" />
+              Add Product
+            </Button>
+          </Box>
         </Box>
-      </Box>
-      {/* View Product */}
-      <Dialog
-        open={dialogOpen}
-        onClose={()=>setDialogOpen(false)}
-        fullWidth
-        maxWidth="sm"
-        PaperProps={{
-          sx: {
-            padding: "20px 10px !important",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#1F2A40 !important" : "#F5F5F5 !important",
-          },
-        }}
-      >
-        <DialogTitle variant="h2">Product Details</DialogTitle>
-        <DialogContent dividers>
-          {selectedProduct && (
-            <Box display="flex" flexDirection="column" gap={2}>
-              <Typography><strong style={{ color:colors.greenAccent[500] }}>Name:</strong> {selectedProduct.name}</Typography>
-              <Typography><strong style={{ color:colors.greenAccent[500] }}>Price:</strong> ${selectedProduct.price}</Typography>
-              <Typography><strong style={{ color:colors.greenAccent[500] }}>Description:</strong> {selectedProduct.description}</Typography>
-              {selectedProduct.images && (
-                <img
-                  src={selectedProduct.images[0]}
-                  alt={selectedProduct.name}
-                  style={{ maxWidth: "200px", width:"100%" , borderRadius: "10px" ,  }}
-                />
-              )}
-            </Box>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" onClick={() => setDialogOpen(false)}>Close</Button>
-        </DialogActions>
-      </Dialog>
-      {/* Dialog Add/Edit Product */}
-      <ProductFormDialog open={formDialogOpen} setOpen={setFormDialogOpen} mode={formMode} product={selectedProduct}/>
-      
-      {/* <Box className="overflow-auto"> */}
-        <Box 
-          minWidth="800px"
-          sx={{
-            "& .MuiDataGrid-root": {
-              border: "none",
+        {/* View Product */}
+        <Dialog
+          open={dialogOpen}
+          onClose={()=>setDialogOpen(false)}
+          fullWidth
+          maxWidth="sm"
+          PaperProps={{
+            sx: {
+              padding: "20px 10px !important",
+              backgroundColor: (theme) =>
+                theme.palette.mode === "dark" ? "#1F2A40 !important" : "#F5F5F5 !important",
             },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-            },
-            "& .name-column-cell": {
-              color: colors.greenAccent[300],
-              fontWeight: "600",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: colors.primary[400],
-            },
-            "& .MuiDataGrid-footerContainer , & .MuiDataGrid-toolbar": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-            },
-            "& .MuiCheckbox-root": {
-              color: `${colors.greenAccent[200]} !important`,
-            },
-            "& .MuiDataGrid-cell" :{
-              display:"flex",
-              alignItems:'center',
-            },
-            "& .MuiButtonBase-root":{
-              color: `${colors.grey[100]} !important`,
-            }
           }}
         >
-        <DataGrid
-          rows={data?.data || []}
-          columns={columns}
-          getRowId={(row) => row._id}
-          getRowHeight={() => 65}
-          slots={{ toolbar: GridToolbar }}
-          showToolbar
-        />
-        </Box>
-      {/* </Box> */}
-    </Box>
+          <DialogTitle variant="h2">Product Details</DialogTitle>
+          <DialogContent dividers>
+            {selectedProduct && (
+              <Box display="flex" flexDirection="column" gap={2}>
+                <Typography><strong style={{ color:colors.greenAccent[500] }}>Name:</strong> {selectedProduct.name}</Typography>
+                <Typography><strong style={{ color:colors.greenAccent[500] }}>Price:</strong> ${selectedProduct.price}</Typography>
+                <Typography><strong style={{ color:colors.greenAccent[500] }}>Description:</strong> {selectedProduct.description}</Typography>
+                {selectedProduct.images && (
+                  <img
+                    src={selectedProduct.images[0]}
+                    alt={selectedProduct.name}
+                    style={{ maxWidth: "200px", width:"100%" , borderRadius: "10px" ,  }}
+                  />
+                )}
+              </Box>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" onClick={() => setDialogOpen(false)}>Close</Button>
+          </DialogActions>
+        </Dialog>
+        {/* Dialog Add/Edit Product */}
+        <ProductFormDialog open={formDialogOpen} setOpen={setFormDialogOpen} mode={formMode} product={selectedProduct}/>
+        
+        {/* <Box className="overflow-auto"> */}
+          <Box 
+            minWidth="800px"
+            sx={{
+              "& .MuiDataGrid-root": {
+                border: "none",
+              },
+              "& .MuiDataGrid-cell": {
+                borderBottom: "none",
+              },
+              "& .name-column-cell": {
+                color: colors.greenAccent[300],
+                fontWeight: "600",
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: colors.blueAccent[700],
+                borderBottom: "none",
+              },
+              "& .MuiDataGrid-virtualScroller": {
+                backgroundColor: colors.primary[400],
+              },
+              "& .MuiDataGrid-footerContainer , & .MuiDataGrid-toolbar": {
+                borderTop: "none",
+                backgroundColor: colors.blueAccent[700],
+              },
+              "& .MuiCheckbox-root": {
+                color: `${colors.greenAccent[200]} !important`,
+              },
+              "& .MuiDataGrid-cell" :{
+                display:"flex",
+                alignItems:'center',
+              },
+              "& .MuiButtonBase-root":{
+                color: `${colors.grey[100]} !important`,
+              }
+            }}
+          >
+          <DataGrid
+            rows={data?.data || []}
+            columns={columns}
+            getRowId={(row) => row._id}
+            getRowHeight={() => 65}
+            slots={{ toolbar: GridToolbar }}
+            showToolbar
+          />
+          </Box>
+        {/* </Box> */}
+      </Box>
+    </>
   );
 }

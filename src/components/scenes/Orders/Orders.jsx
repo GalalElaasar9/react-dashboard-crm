@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import Header from '../../Header/Header';
 import LoadingScreen from '../../Loading/LoadingScreen';
 import ErrorMessage from '../../Error/ErrorMessage';
+import { Helmet } from 'react-helmet-async';
 
 
 export default function Orders() {
@@ -17,13 +18,18 @@ export default function Orders() {
   if (isError) return <ErrorMessage error={error.message} />;
 
   return (
-    <Box className="px-4">
-      <Box className="mt-4">
-        <Header
-          title={"All Orders"}
-          subTitle={"Check All Customer Orders"}
-        />
+    <>
+      <Helmet>
+        <title>Orders | Admin Dashboard</title>
+      </Helmet>
+      <Box className="px-4">
+        <Box className="mt-4">
+          <Header
+            title={"All Orders"}
+            subTitle={"Check All Customer Orders"}
+          />
+        </Box>
       </Box>
-    </Box>
+    </>
   )
 }

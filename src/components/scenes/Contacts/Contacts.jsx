@@ -4,6 +4,7 @@ import Header from '../../Header/Header';
 import { mockDataContacts } from '../../../data/mockData';
 import { tokens } from '../../../theme';
 import { GridToolbar } from '@mui/x-data-grid';
+import { Helmet } from 'react-helmet-async';
 
 export default function Contacts() {
     const theme = useTheme()
@@ -21,6 +22,10 @@ export default function Contacts() {
       {field : "zipCode" , headerName : "zipCode" , flex:1},
     ]
   return (
+    <>
+    <Helmet>
+      <title>Contacts | Admin Dashboard</title>
+    </Helmet>
     <Box mt={'30px'} p={'0 1.5rem'}>
       <Header
         title="CONTACTS"
@@ -72,5 +77,6 @@ export default function Contacts() {
         </Box>
       </Box>
     </Box>
+    </>
   );
 }

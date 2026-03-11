@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet-async";
 
 const initialValues = {
   name:"",
@@ -50,7 +50,7 @@ export default function Register() {
   return (
     <>
     <Helmet>
-      <title>Register Page</title>
+      <title>Register | Admin Dashboard</title>
     </Helmet>
     <Box className="px-4">
       <Box className="mt-4">

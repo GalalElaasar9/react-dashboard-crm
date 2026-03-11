@@ -21,6 +21,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
 import { CategoryContext } from "../../../Context/CategoryContextProvider";
 import { GridToolbar } from "@mui/x-data-grid/internals";
+import { Helmet } from "react-helmet-async";
 
 export default function Category() {
   const theme = useTheme();
@@ -122,6 +123,10 @@ export default function Category() {
   if (isError) return <ErrorMessage error={error.message} />;
 
   return (
+    <>
+      <Helmet>
+        <title>Categories | Admin Dashboard</title>
+      </Helmet>
     <Box className="px-4">
       <Dialog
         open={dialogOpen}
@@ -233,5 +238,6 @@ export default function Category() {
         </Box>
       </Box>
     </Box>
+    </>
   );
 }

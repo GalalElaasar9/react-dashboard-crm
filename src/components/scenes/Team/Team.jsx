@@ -30,6 +30,7 @@ import { Formik } from "formik";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect } from "react";
 import { GridToolbar } from "@mui/x-data-grid/internals";
+import { Helmet } from "react-helmet-async";
 
 export default function Team() {
   const theme = useTheme();
@@ -198,7 +199,11 @@ export default function Team() {
   ];
 
   return (
-    <div className="px-4">
+    <>
+    <Helmet>
+      <title>Team | Admin Dashboard</title>
+    </Helmet>
+    <Box className="px-4">
       {/* Dialog Add / Edit User */}
       <Dialog
         open={dialogOpen}
@@ -397,6 +402,7 @@ export default function Team() {
           />
         </Box>
       </Box>
-    </div>
+    </Box>
+    </>
   );
 }

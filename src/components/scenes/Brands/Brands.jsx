@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { DataGrid } from "@mui/x-data-grid";
 import { brandContext } from "../../../Context/BrandContextProvider";
 import { GridToolbar } from "@mui/x-data-grid/internals";
+import { Helmet } from "react-helmet-async";
 
 export default function Brands() {
   const theme = useTheme();
@@ -64,117 +65,122 @@ export default function Brands() {
   ];
 
   return (
-    <Box className="px-4">
-      {/* Dialog Add Brands */}
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        TransitionComponent={Grow}
-        fullWidth
-        maxWidth="sm"
-        PaperProps={{
-          sx: {
-            padding: "20px 10px !important",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#1F2A40 !important" : "#F5F5F5 !important",
-          },
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <Box>
-            <Typography variant="h3" className="mb-3">
-              Add Brand
-            </Typography>
-            <TextField
-              fullWidth
-              label="Brand Name"
-              variant="filled"
-              type="text"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </Box>
-          <Button
-            disabled={isPending}
-            type="submit"
-            variant="contained"
-            className="w-full mt-3 sm:w-auto !font-bold"
-            sx={{ backgroundColor: colors.greenAccent[500],}}
-          >
-            {isPending ? "Adding..." : "Add Brand"}
-          </Button>
-        </form>
-      </Dialog>
-
-      <Box className="my-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ">
-        <Header
-          title={"All Brands"}
-          subTitle={"All Brands Available In The Store"}
-        />
-        <Box>
-          <Button
-            onClick={() => setDialogOpen(true)}
-            className="w-full sm:w-auto"
-            sx={{
-              backgroundColor: colors.greenAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              p: "10px 20px",
-              fontWeight: "bold",
-            }}
-          >
-            <AddCircle className="mr-2" />
-            Add Brand
-          </Button>
-        </Box>
-      </Box>
-      <Box className="overflow-auto">
-        <Box
-          sx={{
-            "& .MuiDataGrid-root": {
-              border: "none",
+    <>
+      <Helmet>
+        <title>Brands | Admin Dashboard</title>
+      </Helmet>
+      <Box className="px-4">
+        {/* Dialog Add Brands */}
+        <Dialog
+          open={dialogOpen}
+          onClose={() => setDialogOpen(false)}
+          TransitionComponent={Grow}
+          fullWidth
+          maxWidth="sm"
+          PaperProps={{
+            sx: {
+              padding: "20px 10px !important",
+              backgroundColor: (theme) =>
+                theme.palette.mode === "dark" ? "#1F2A40 !important" : "#F5F5F5 !important",
             },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-            },
-            "& .name-column-cell": {
-              color: colors.greenAccent[300],
-              fontWeight: "600",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: colors.primary[400],
-            },
-            "& .MuiDataGrid-footerContainer , & .MuiDataGrid-toolbar": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-            },
-            "& .MuiCheckbox-root": {
-              color: `${colors.greenAccent[200]} !important`,
-            },
-            "& .MuiDataGrid-cell" :{
-              display:"flex",
-              alignItems:'center',
-            },
-            "& .MuiButtonBase-root":{
-              color: `${colors.grey[100]} !important`,
-            }
           }}
         >
-          <DataGrid
-            rows={data?.data || []}
-            columns={columns}
-            getRowId={(row) => row._id}
-            slots={{ toolbar: GridToolbar }}
-            showToolbar
+          <form onSubmit={handleSubmit}>
+            <Box>
+              <Typography variant="h3" className="mb-3">
+                Add Brand
+              </Typography>
+              <TextField
+                fullWidth
+                label="Brand Name"
+                variant="filled"
+                type="text"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </Box>
+            <Button
+              disabled={isPending}
+              type="submit"
+              variant="contained"
+              className="w-full mt-3 sm:w-auto !font-bold"
+              sx={{ backgroundColor: colors.greenAccent[500],}}
+            >
+              {isPending ? "Adding..." : "Add Brand"}
+            </Button>
+          </form>
+        </Dialog>
+
+        <Box className="my-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ">
+          <Header
+            title={"All Brands"}
+            subTitle={"All Brands Available In The Store"}
           />
+          <Box>
+            <Button
+              onClick={() => setDialogOpen(true)}
+              className="w-full sm:w-auto"
+              sx={{
+                backgroundColor: colors.greenAccent[700],
+                color: colors.grey[100],
+                fontSize: "14px",
+                p: "10px 20px",
+                fontWeight: "bold",
+              }}
+            >
+              <AddCircle className="mr-2" />
+              Add Brand
+            </Button>
+          </Box>
+        </Box>
+        <Box className="overflow-auto">
+          <Box
+            sx={{
+              "& .MuiDataGrid-root": {
+                border: "none",
+              },
+              "& .MuiDataGrid-cell": {
+                borderBottom: "none",
+              },
+              "& .name-column-cell": {
+                color: colors.greenAccent[300],
+                fontWeight: "600",
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: colors.blueAccent[700],
+                borderBottom: "none",
+              },
+              "& .MuiDataGrid-virtualScroller": {
+                backgroundColor: colors.primary[400],
+              },
+              "& .MuiDataGrid-footerContainer , & .MuiDataGrid-toolbar": {
+                borderTop: "none",
+                backgroundColor: colors.blueAccent[700],
+              },
+              "& .MuiCheckbox-root": {
+                color: `${colors.greenAccent[200]} !important`,
+              },
+              "& .MuiDataGrid-cell" :{
+                display:"flex",
+                alignItems:'center',
+              },
+              "& .MuiButtonBase-root":{
+                color: `${colors.grey[100]} !important`,
+              }
+            }}
+          >
+            <DataGrid
+              rows={data?.data || []}
+              columns={columns}
+              getRowId={(row) => row._id}
+              slots={{ toolbar: GridToolbar }}
+              showToolbar
+            />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }

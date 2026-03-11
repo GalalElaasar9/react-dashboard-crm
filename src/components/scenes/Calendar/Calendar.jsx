@@ -16,6 +16,7 @@ import {
 import Header from "../../../components/Header/Header";
 import { tokens } from "../../../theme";
 import { red } from "@mui/material/colors";
+import { Helmet } from "react-helmet-async";
 
 const Calendar = () => {
   const theme = useTheme();
@@ -83,63 +84,68 @@ const Calendar = () => {
 
 
   return (
-    <Box mt="25px" p={'0 1.5rem'}>
-      <Header title="Calendar" subTitle="Full Calendar Interactive Page" />
+    <>
+      <Helmet>
+        <title>Calender | Admin Dashboard</title>
+      </Helmet>
+      <Box mt="25px" p={'0 1.5rem'}>
+        <Header title="Calendar" subTitle="Full Calendar Interactive Page" />
 
-      <Box display={"flex"} justifyContent={"space-between"} flexDirection={{ xs:"column" , sm:"column" , md:"row" }}>
-        {/* Calendar SideBar */}
-        <Box flex={'1 1 20%'} bgcolor={colors.primary[400]} p={"15px"} borderRadius={"4px"} mb={{ xs:"20px" , sm:"25px" }} mt={'25px'}>
-          <Typography variant="h5">Events</Typography>
-          <List>
-            {currentEvents.map((event)=>{
-              return <ListItem key={event.id} sx={{ backgroundColor:colors.greenAccent[500] , margin:"10px 0" , borderRadius:"2px" }}>
-                <ListItemText primary={event.title} secondary={
-                  <Typography>
-                    {/* formatDate => إلى نص مقروء Date Object تقوم بتحويل ال */}
-                    {formatDate(event.start,{
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </Typography>
-                }>
-                </ListItemText>
-              </ListItem>
-            })}
-          </List>
+        <Box display={"flex"} justifyContent={"space-between"} flexDirection={{ xs:"column" , sm:"column" , md:"row" }}>
+          {/* Calendar SideBar */}
+          <Box flex={'1 1 20%'} bgcolor={colors.primary[400]} p={"15px"} borderRadius={"4px"} mb={{ xs:"20px" , sm:"25px" }} mt={'25px'}>
+            <Typography variant="h5">Events</Typography>
+            <List>
+              {currentEvents.map((event)=>{
+                return <ListItem key={event.id} sx={{ backgroundColor:colors.greenAccent[500] , margin:"10px 0" , borderRadius:"2px" }}>
+                  <ListItemText primary={event.title} secondary={
+                    <Typography>
+                      {/* formatDate => إلى نص مقروء Date Object تقوم بتحويل ال */}
+                      {formatDate(event.start,{
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </Typography>
+                  }>
+                  </ListItemText>
+                </ListItem>
+              })}
+            </List>
+          </Box>
+          {/* Calendar */}
+          <Box flex={'1 1 100%'} ml={{ xs:"0px" , sm:"0px" , md:"15px" }}>
+            <FullCalendar
+              height={"75vh"}
+              plugins={[
+                dayGridPlugin,
+                timeGridPlugin,
+                interactionPlugin,
+                listPlugin
+              ]}
+              headerToolbar = {{ 
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth"
+              }}
+              initialView="dayGridMonth"
+              editable={true}
+              selectable={true}
+              selectMirror={true}
+              dayMaxEvents={true}
+              select={handleDateClick}
+              eventClick={handleEventClick}
+              eventsSet={(events)=>setCurrentEvents(events)}
+              initialEvents={[
+                {id:"1234" ,title: "All-Day-Events" , date: "2026-02-07"},
+                {id:"4321" ,title: "Timed Event" , date: "2026-02-08"},
+              ]}
+            />
+          </Box>
         </Box>
-        {/* Calendar */}
-        <Box flex={'1 1 100%'} ml={{ xs:"0px" , sm:"0px" , md:"15px" }}>
-          <FullCalendar
-            height={"75vh"}
-            plugins={[
-              dayGridPlugin,
-              timeGridPlugin,
-              interactionPlugin,
-              listPlugin
-            ]}
-            headerToolbar = {{ 
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth"
-            }}
-            initialView="dayGridMonth"
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
-            select={handleDateClick}
-            eventClick={handleEventClick}
-            eventsSet={(events)=>setCurrentEvents(events)}
-            initialEvents={[
-              {id:"1234" ,title: "All-Day-Events" , date: "2026-02-07"},
-              {id:"4321" ,title: "Timed Event" , date: "2026-02-08"},
-            ]}
-          />
-        </Box>
+
       </Box>
-
-    </Box>
+    </>
   );
 };
 
