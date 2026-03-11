@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Helmet } from 'react-helmet';
 
 const initialValues = {
   name:"",
@@ -47,6 +48,10 @@ export default function Register() {
   );
 
   return (
+    <>
+    <Helmet>
+      <title>Register Page</title>
+    </Helmet>
     <Box className="px-4">
       <Box className="mt-4">
         <Header
@@ -138,5 +143,6 @@ export default function Register() {
         </Formik>
       </Box>
     </Box>
+    </>
   )
 }
