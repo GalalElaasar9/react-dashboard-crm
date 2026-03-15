@@ -282,7 +282,7 @@ export default function Products() {
         {/* Dialog Add/Edit Product */}
         <ProductFormDialog open={formDialogOpen} setOpen={setFormDialogOpen} mode={formMode} product={selectedProduct}/>
         
-        {/* <Box className="overflow-auto"> */}
+        <Box className="overflow-auto">
           <Box 
             minWidth="800px"
             sx={{
@@ -328,7 +328,7 @@ export default function Products() {
             showToolbar
           />
           </Box>
-        {/* </Box> */}
+        </Box>
       </Box>
     </>
   );
